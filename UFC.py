@@ -1,3 +1,8 @@
+# This is a basic example of using Keras to predict
+# TODO - We still need to put in all of Jay's code regarding the data preprocessing and integrate it into this
+# TODO - We stil need to put in the k-fold validation and grid search
+# TODO - Figire out the best way to visualize the data
+
 # Binary Classification with Sonar Dataset: Baseline
 from pandas import read_csv
 from keras.models import Sequential
