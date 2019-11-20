@@ -3,6 +3,8 @@ import pandas as pd
 from sklearn.model_selection import GridSearchCV
 from sklearn.linear_model import LogisticRegression
 from sklearn.linear_model import Perceptron
+import re
+import sys
 
 if __name__ == '__main__':
     # path to the csv file
@@ -10,11 +12,13 @@ if __name__ == '__main__':
     # number of folds
     K_FOLDS = 10
     # maximum iterations
-    MAX_ITER = 20000
+    MAX_ITER = 10000
     # random state to use for shuffling
     RANDOM_STATE = 987654321
     # multi-core threads
     MULTI_CORE = -1
+    # VERBOSITY
+    VERBOSE = 1
 
     # import data
     pd_data = pd.read_csv(DATA_PATH)
@@ -30,33 +34,52 @@ if __name__ == '__main__':
     per_parameters = {'penalty': ('None', 'l1', 'l2', 'elasticnet'),
                       'warm_start': ('True', 'False'),
                       'class_weight': (None, 'balanced')
-                      } #   'eta0': ('1', '.1', '.01'), 'fit_intercept': ('True', 'False')
+                      }  # 'eta0': ('1', '.1', '.01'), 'fit_intercept': ('True', 'False')
 
     # logistic regression definition
-    per = Perceptron(shuffle=True, random_state=RANDOM_STATE, max_iter=MAX_ITER, verbose=10) # n_jobs=MULTI_CORE
+    per = Perceptron(shuffle=True, random_state=RANDOM_STATE, max_iter=MAX_ITER, verbose=VERBOSE)  # n_jobs=MULTI_CORE
     # gridsearch over the parameters
-    clf = GridSearchCV(per, per_parameters, cv=K_FOLDS, n_jobs=MULTI_CORE, verbose=10)
+    clf = GridSearchCV(per, per_parameters, cv=K_FOLDS, n_jobs=MULTI_CORE, verbose=VERBOSE)
     # fit the date
     clf.fit(pd_data_x, pd_data_y)
 
-    # result = sorted(clf.cv_results_.keys())
-    print()
+    best_score_perceptron = clf.best_score_
+    best_params_perceptron = clf.best_params_
+
+    print("")
+    print("")
     print("PERCEPTRON RESULTS:")
-    print(clf.cv_results_["mean_test_score"])
+    print("BEST SCORE: ", best_score_perceptron)
+    print("BEST PARAMS: ", best_params_perceptron)
 
     ####################################################################################################################
     print()
     print("RUNNING LOGISTIC REGRESSION")
     # parameters to search over
-    log_parameters = {'solver': ('lbfgs', 'liblinear'), 'C': [1, 10]}
+    log_parameters = {'solver': ('newton-cg', 'lbfgs', 'liblinear', 'sag', 'saga'),
+                      'penalty': ('None', 'l1', 'l2', 'elasticnet'),
+                      'warm_start': ('True', 'False'),
+                      'class_weight': (None, 'balanced'),
+                      'C': [1, 10, 100]}
+
     # logistic regression definition
-    log_reg = LogisticRegression(random_state=RANDOM_STATE, max_iter=MAX_ITER)
+    log_reg = LogisticRegression(random_state=RANDOM_STATE, n_jobs=MULTI_CORE, max_iter=MAX_ITER, verbose=VERBOSE)
     # gridsearch over the parameters
-    clf = GridSearchCV(log_reg, log_parameters, cv=K_FOLDS, n_jobs=MULTI_CORE, verbose=10)
+    clf = GridSearchCV(log_reg, log_parameters, cv=K_FOLDS, n_jobs=MULTI_CORE, verbose=VERBOSE)
     # fit the date
     clf.fit(pd_data_x, pd_data_y)
 
-    # result = sorted(clf.cv_results_.keys())
-    print()
+    best_score_log = clf.best_score_
+    best_params_log = clf.best_params_
+
+    print("")
+    print("")
     print("LOGISTIC REGRESSION RESULTS:")
-    print(clf.cv_results_["mean_test_score"])
+    print("BEST SCORE: ", best_score_log)
+    print("BEST PARAMS: ", best_params_log)
+
+    print("")
+    print("")
+    print("PERCEPTRON RESULTS:")
+    print("BEST SCORE: ", best_score_perceptron)
+    print("BEST PARAMS: ", best_params_perceptron)
