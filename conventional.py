@@ -56,14 +56,13 @@ if __name__ == '__main__':
     print()
     print("RUNNING LOGISTIC REGRESSION")
     # parameters to search over
-    log_parameters = {'solver': ('newton-cg', 'lbfgs', 'liblinear', 'sag', 'saga'),
-                      'penalty': ('None', 'l1', 'l2', 'elasticnet'),
+    log_parameters = {'penalty': ('none', 'l2'),
                       'warm_start': ('True', 'False'),
                       'class_weight': (None, 'balanced'),
                       'C': [1, 10, 100]}
 
     # logistic regression definition
-    log_reg = LogisticRegression(random_state=RANDOM_STATE, n_jobs=MULTI_CORE, max_iter=MAX_ITER, verbose=VERBOSE)
+    log_reg = LogisticRegression(solver='lbfgs', random_state=RANDOM_STATE, n_jobs=MULTI_CORE, max_iter=MAX_ITER, verbose=VERBOSE)
     # gridsearch over the parameters
     clf = GridSearchCV(log_reg, log_parameters, cv=K_FOLDS, n_jobs=MULTI_CORE, verbose=VERBOSE)
     # fit the date
