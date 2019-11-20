@@ -59,7 +59,7 @@ if __name__ == '__main__':
     log_parameters = {'penalty': ('none', 'l2'),
                       'warm_start': ('True', 'False'),
                       'class_weight': (None, 'balanced'),
-                      'C': [1, 10, 100]}
+                      'C': np.arange(8,11,.001)} # 'C': [8,9,9.5,10,10.5,11,12]
 
     # logistic regression definition
     log_reg = LogisticRegression(solver='lbfgs', random_state=RANDOM_STATE, n_jobs=MULTI_CORE, max_iter=MAX_ITER, verbose=VERBOSE)
