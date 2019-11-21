@@ -8,11 +8,11 @@ import sys
 
 if __name__ == '__main__':
     # path to the csv file
-    DATA_PATH = "manually-preprocessed_data-full-headers.csv"
+    DATA_PATH = 'preprocessed_data_condensed.csv' # "manually-preprocessed_data-full-headers.csv"
     # number of folds
     K_FOLDS = 10
     # maximum iterations
-    MAX_ITER = 10000
+    MAX_ITER = 20000
     # random state to use for shuffling
     RANDOM_STATE = 987654321
     # multi-core threads
@@ -59,7 +59,7 @@ if __name__ == '__main__':
     log_parameters = {'penalty': ('none', 'l2'),
                       'warm_start': ('True', 'False'),
                       'class_weight': (None, 'balanced'),
-                      'C': np.arange(8,11,.001)} # 'C': [8,9,9.5,10,10.5,11,12]
+                      'C': np.arange(4, 5, .01)} # 'C': [8,9,9.5,10,10.5,11,12]
 
     # logistic regression definition
     log_reg = LogisticRegression(solver='lbfgs', random_state=RANDOM_STATE, n_jobs=MULTI_CORE, max_iter=MAX_ITER, verbose=VERBOSE)
