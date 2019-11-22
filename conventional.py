@@ -3,6 +3,7 @@ import pandas as pd
 from sklearn.model_selection import GridSearchCV
 from sklearn.linear_model import LogisticRegression
 from sklearn.linear_model import Perceptron
+from sklearn.svm import SVC
 import re
 import sys
 
@@ -15,7 +16,7 @@ if __name__ == '__main__':
     MAX_ITER = 20000
     # random state to use for shuffling
     RANDOM_STATE = 987654321
-    # multi-core threads
+    # multi-core threads. -1
     MULTI_CORE = -1
     # VERBOSITY
     VERBOSE = 1
@@ -26,6 +27,33 @@ if __name__ == '__main__':
     # x and y data
     pd_data_y = pd_data["Winner"]
     pd_data_x = pd_data.loc[:, pd_data.columns != "Winner"]
+
+
+
+    ####################################################################################################################
+    print()
+    print("RUNNING SVM")
+    # parameters to search over
+    svm_parameters = {'C': [.000001,.00001,.0001, .001,.01, .1],  # np.arange(.01, 10, .1)
+                      'gamma': [.000001,.00001,.0001, .001,.01, .1]} # np.arange(.01, 10, .01)
+                      #'gamma':('auto', 'scale')} # 'kernel':'rbf', #, 'linear', 'sigmoid'
+
+    # logistic regression definition
+    svm = SVC(random_state=RANDOM_STATE, verbose=VERBOSE)  # n_jobs=MULTI_CORE ,max_iter=MAX_ITER
+    # gridsearch over the parameters
+    clf = GridSearchCV(svm, svm_parameters, cv=K_FOLDS, n_jobs=MULTI_CORE, verbose=VERBOSE)
+    # fit the date
+    clf.fit(pd_data_x, pd_data_y)
+
+    best_score_svm = clf.best_score_
+    best_params_svm = clf.best_params_
+
+    print("")
+    print("")
+    print("SVM RESULTS:")
+    print("BEST SCORE: ", best_score_svm)
+    print("BEST PARAMS: ", best_params_svm)
+
 
     ####################################################################################################################
     print()
@@ -51,6 +79,7 @@ if __name__ == '__main__':
     print("PERCEPTRON RESULTS:")
     print("BEST SCORE: ", best_score_perceptron)
     print("BEST PARAMS: ", best_params_perceptron)
+
 
     ####################################################################################################################
     print()
