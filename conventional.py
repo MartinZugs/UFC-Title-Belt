@@ -4,12 +4,13 @@ from sklearn.model_selection import GridSearchCV
 from sklearn.linear_model import LogisticRegression
 from sklearn.linear_model import Perceptron
 from sklearn.svm import SVC
+import time
 import re
 import sys
 
 if __name__ == '__main__':
     # path to the csv file
-    DATA_PATH = 'preprocessed_data_condensed.csv' # "manually-preprocessed_data-full-headers.csv"
+    DATA_PATH = "manually-preprocessed_data-full-headers.csv" #'preprocessed_data_condensed.csv' # "manually-preprocessed_data-full-headers.csv"
     # number of folds
     K_FOLDS = 10
     # maximum iterations
@@ -54,6 +55,8 @@ if __name__ == '__main__':
     print("BEST SCORE: ", best_score_svm)
     print("BEST PARAMS: ", best_params_svm)
 
+    # wait for 10 seconds so the user can see the score!
+    time.sleep(10)
 
     ####################################################################################################################
     print()
@@ -80,6 +83,8 @@ if __name__ == '__main__':
     print("BEST SCORE: ", best_score_perceptron)
     print("BEST PARAMS: ", best_params_perceptron)
 
+    # wait for 10 seconds so the user can see the score!
+    time.sleep(10)
 
     ####################################################################################################################
     print()
@@ -100,14 +105,23 @@ if __name__ == '__main__':
     best_score_log = clf.best_score_
     best_params_log = clf.best_params_
 
+
     print("")
     print("")
-    print("LOGISTIC REGRESSION RESULTS:")
-    print("BEST SCORE: ", best_score_log)
-    print("BEST PARAMS: ", best_params_log)
+    print("SVM RESULTS:")
+    print("BEST SCORE: ", best_score_svm)
+    print("BEST PARAMS: ", best_params_svm)
 
     print("")
     print("")
     print("PERCEPTRON RESULTS:")
     print("BEST SCORE: ", best_score_perceptron)
     print("BEST PARAMS: ", best_params_perceptron)
+
+    print("")
+    print("")
+    print("LOGISTIC REGRESSION RESULTS:")
+    print("BEST SCORE: ", best_score_log)
+    print("BEST PARAMS: ", best_params_log)
+
+
