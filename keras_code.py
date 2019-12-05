@@ -15,7 +15,7 @@ from sklearn.model_selection import train_test_split
 
 # path to the csv file
 DATA_PATH = "manually-preprocessed_data-full-headers.csv"  # 'preprocessed_data_condensed.csv' # "manually-preprocessed_data-full-headers.csv"
-PROCESSORS = 4
+PROCESSORS = 3
 KFOLD = 10
 VERBOSE = 1
 RANDOM_STATE = 314159
@@ -31,13 +31,34 @@ pd_data_x = pd_data.loc[:, pd_data.columns != "Winner"]
 pd_data_x_train, pd_data_x_test, pd_data_y_train, pd_data_y_test = train_test_split(pd_data_x, pd_data_y, test_size=.2,
                                                                                     random_state=RANDOM_STATE)
 
+def create_model_gridsearch(optimizer='rmsprop', init='glorot_uniform',_depth=2, _node_start=128, _node_iterate=16):
+    # create model
+    model = Sequential()
+    model.add(Dense(128, input_dim=159, kernel_initializer=init, activation='sigmoid'))
+
+    # add model loop here
+
+
+    model.add(Dense(1, kernel_initializer=init, activation='sigmoid'))
+    # Compile model
+    model.compile(loss='binary_crossentropy', optimizer=optimizer, metrics=['accuracy'])
+    return model
+
 
 # Function to create model, required for KerasClassifier
 def create_model(optimizer='rmsprop', init='glorot_uniform'):
     # create model
     model = Sequential()
-    model.add(Dense(12, input_dim=159, kernel_initializer=init, activation='relu'))
-    model.add(Dense(8, kernel_initializer=init, activation='relu'))
+    model.add(Dense(128, input_dim=159, kernel_initializer=init, activation='sigmoid'))
+    # model.add(Dense(128, kernel_initializer=init, activation='relu'))
+    model.add(Dense(64, kernel_initializer=init, activation='sigmoid'))
+    model.add(Dense(32, kernel_initializer=init, activation='sigmoid'))
+    # model.add(Dense(12, input_dim=159, kernel_initializer=init, activation='relu'))
+    model.add(Dense(16, kernel_initializer=init, activation='sigmoid'))
+    # model.add(Dense(12, kernel_initializer=init, activation='relu'))
+    model.add(Dense(8, kernel_initializer=init, activation='sigmoid'))
+    model.add(Dense(4, kernel_initializer=init, activation='sigmoid'))
+    model.add(Dense(2, kernel_initializer=init, activation='sigmoid'))
     model.add(Dense(1, kernel_initializer=init, activation='sigmoid'))
     # Compile model
     model.compile(loss='binary_crossentropy', optimizer=optimizer, metrics=['accuracy'])
@@ -45,12 +66,12 @@ def create_model(optimizer='rmsprop', init='glorot_uniform'):
 
 
 # evaluate model with standardized dataset
-model = KerasClassifier(build_fn=create_model, epochs=100, verbose=0)  # verbose = 0 for nothing to show
+model = KerasClassifier(build_fn=create_model, epochs=100, verbose=VERBOSE)  # verbose = 0 for nothing to show
 # grid search epochs, batch size and optimizer
 optimizers = ['rmsprop', 'adam']
 init = ['glorot_uniform', 'normal', 'uniform']
-epochs = [50, 100, 150]
-batches = [5, 10, 20]
+epochs = [300]
+batches = [20]
 param_grid = dict(optimizer=optimizers, epochs=epochs, batch_size=batches, init=init)
 grid = GridSearchCV(estimator=model, param_grid=param_grid, n_jobs=PROCESSORS, cv=KFOLD, verbose=VERBOSE)
 grid_result = grid.fit(pd_data_x_train, pd_data_y_train)
@@ -67,7 +88,7 @@ best_grid_result_score = accuracy_score(pd_data_y_test, grid_result.best_estimat
 
 print()
 print()
-print("SVM BEST PARAMETERS : ")
+print("BEST PARAMETERS : ")
 print(grid_result.best_params_)
 print()
 print()
