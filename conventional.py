@@ -7,6 +7,7 @@ from sklearn.svm import SVC
 import time
 import re
 import sys
+import pickle
 
 if __name__ == '__main__':
     # path to the csv file
@@ -46,6 +47,11 @@ if __name__ == '__main__':
     # fit the date
     clf.fit(pd_data_x, pd_data_y)
 
+    # save trained SVM classifier to file
+    svm_outfile = open("svm_clf.pickle", "w+b")
+    pickle.dump(clf, svm_outfile)
+    svm_outfile.close()
+
     best_score_svm = clf.best_score_
     best_params_svm = clf.best_params_
 
@@ -74,6 +80,11 @@ if __name__ == '__main__':
     # fit the date
     clf.fit(pd_data_x, pd_data_y)
 
+    # save trained perceptron classifier to file
+    per_outfile = open("per_clf.pickle", "w+b")
+    pickle.dump(clf, per_outfile)
+    per_outfile.close()
+
     best_score_perceptron = clf.best_score_
     best_params_perceptron = clf.best_params_
 
@@ -90,7 +101,7 @@ if __name__ == '__main__':
     print()
     print("RUNNING LOGISTIC REGRESSION")
     # parameters to search over
-    log_parameters = {'penalty': ('none', 'l2'),
+    log_parameters = {'penalty': ('l1', 'l2'),
                       'warm_start': ('True', 'False'),
                       'class_weight': (None, 'balanced'),
                       'C': np.arange(4, 5, .01)} # 'C': [8,9,9.5,10,10.5,11,12]
@@ -101,6 +112,11 @@ if __name__ == '__main__':
     clf = GridSearchCV(log_reg, log_parameters, cv=K_FOLDS, n_jobs=MULTI_CORE, verbose=VERBOSE)
     # fit the date
     clf.fit(pd_data_x, pd_data_y)
+
+    # save trained LR classifier to file
+    lr_outfile = open("lr_clf.pickle", "w+b")
+    pickle.dump(clf, lr_outfile)
+    lr_outfile.close()
 
     best_score_log = clf.best_score_
     best_params_log = clf.best_params_
