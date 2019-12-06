@@ -39,19 +39,19 @@ pd_data_x_train, pd_data_x_test, pd_data_y_train, pd_data_y_test = train_test_sp
 
 
 # Create the KerasClassifier
-def create_model(optimizer='rmsprop', kernel_init='glorot_uniform', activation='sigmoid', layer=1, node = 32):
+def create_model(optimizer='rmsprop', kernel_init='glorot_uniform', activation='sigmoid', layer=1, node=32, dropout=.5):
     # create squential model
     model = Sequential()
     # add initial layer
-    model.add(Dense(nodes, input_dim=DATA_SHAPE, kernel_initializer=kernel_init, activation=activation))
-    model.add(Dropout(0.5))
+    model.add(Dense(node, input_dim=DATA_SHAPE, kernel_initializer=kernel_init, activation=activation))
+    model.add(Dropout(dropout))
 
     # add numbers of intermediate layers
     i = 1
-    for layer in range(layers):
+    for _layer in range(layer):
         # print("ADDING LAYER : ", i)
-        model.add(Dense(nodes, kernel_initializer=kernel_init, activation=activation))
-        model.add(Dropout(0.5))
+        model.add(Dense(node, kernel_initializer=kernel_init, activation=activation))
+        model.add(Dropout(dropout))
         i = i + 1
 
     # add the final layer
@@ -68,7 +68,8 @@ optimizers = ['rmsprop', 'adam', 'sgd']
 kernel_inits = ['glorot_uniform', 'normal', 'uniform']
 activations = ['sigmoid', 'relu']
 layers = [1, 2, 3, 4, 5]
-nodes = [8, 16, 32, 64]
+nodes = [8, 16, 32, 64, 128]
+dropouts = [.1, .2, .3, .4, .5]
 epochs = [1000]
 batches = [20]
 
@@ -78,7 +79,7 @@ DATA_LENGTH = pd_data_x_train.shape[0]
 
 # define parameter grid
 param_grid = dict(optimizer=optimizers, epochs=epochs, batch_size=batches, kernel_init=kernel_inits,
-                  activation=activations, layer=layers, node=nodes)
+                  activation=activations, layer=layers, node=nodes, dropout=dropouts)
 # define gridsearch
 grid = GridSearchCV(estimator=model, param_grid=param_grid, n_jobs=PROCESSORS, cv=KFOLD, verbose=VERBOSE)
 # fit
