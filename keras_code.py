@@ -57,9 +57,9 @@ def create_model(optimizer='rmsprop', kernel_init='glorot_uniform', activation='
 # evaluate model with standardized dataset
 model = KerasClassifier(build_fn=create_model, epochs=100, verbose=VERBOSE)  # verbose = 0 for nothing to show
 # grid search parameters
-optimizers = ['rmsprop', 'adam', 'sgd']
+optimizers = ['rmsprop']
 kernel_inits = ['glorot_uniform', 'normal', 'uniform']
-activations = ['sigmoid', 'relu']
+activations = ['sigmoid']
 layers = [1, 10,20]
 nodes = [8, 64, 160]
 dropouts = [.05, .1, .2, .5]
