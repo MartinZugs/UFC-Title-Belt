@@ -11,7 +11,7 @@ from sklearn.utils import shuffle
 # path to the csv file
 DATA_PATH = "manually-preprocessed_data-full-headers.csv"
 # processors
-PROCESSORS = 3
+PROCESSORS = 24
 # K folds
 KFOLD = 10
 # verbosity
@@ -77,11 +77,6 @@ param_grid = dict(optimizer=optimizers, epochs=epochs, batch_size=batches, kerne
 grid = GridSearchCV(estimator=model, param_grid=param_grid, n_jobs=PROCESSORS, cv=KFOLD, verbose=VERBOSE)
 # fit
 grid_result = grid.fit(pd_data_x_train, pd_data_y_train)
-
-# save trained keras classifier to file
-keras_outfile = open("keras_clf.pickle", "w+b")
-pickle.dump(grid_result, keras_outfile)
-keras_outfile.close()
 
 # summarize results
 print("Best: %f using %s" % (grid_result.best_score_, grid_result.best_params_))
