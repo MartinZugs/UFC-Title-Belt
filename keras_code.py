@@ -11,7 +11,7 @@ from sklearn.utils import shuffle
 # path to the csv file
 DATA_PATH = "manually-preprocessed_data-full-headers.csv"
 # processors
-PROCESSORS = 24
+PROCESSORS = -1
 # K folds
 KFOLD = 10
 # verbosity
@@ -62,7 +62,7 @@ kernel_inits = ['glorot_uniform', 'normal', 'uniform']
 activations = ['sigmoid']
 layers = [1, 10,20]
 nodes = [8, 64, 160]
-dropouts = [.05, .1, .2, .5]
+dropouts = [.0, .1, .2]
 epochs = [500]
 batches = [10, 20, 30]
 
