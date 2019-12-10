@@ -60,11 +60,11 @@ model = KerasClassifier(build_fn=create_model, epochs=100, verbose=VERBOSE)  # v
 optimizers = ['rmsprop']
 kernel_inits = ['glorot_uniform', 'normal', 'uniform']
 activations = ['sigmoid']
-layers = [1, 10,20]
+layers = [1, 10]
 nodes = [8, 64, 160]
-dropouts = [.0, .1, .2]
+dropouts = [.1]
 epochs = [500]
-batches = [10, 20, 30]
+batches = [10]
 
 # shape of the data. This defines all of the inputs
 DATA_SHAPE = pd_data_x_train.shape[1]
