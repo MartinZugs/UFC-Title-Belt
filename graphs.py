@@ -120,19 +120,40 @@ lr_grid_scores = lr_clf.cv_results_['mean_test_score']
 #     lr_grid_c_values.append(lr_grid_params[i]['C'])
 #     print('C: ' + str(lr_grid_c_values[i]) + ' - Score: ' + str(lr_grid_scores[i]))
 
-# get preprocessed, train/test split data
-DATA_PATH = "manually-preprocessed_data-full-headers.csv"
-pd_data = pd.read_csv(DATA_PATH)
-pd_data_y = pd_data["Winner"]
-pd_data_x = pd_data.loc[:, pd_data.columns != "Winner"]
-x_train, x_test, y_train, y_test = train_test_split(pd_data_x, pd_data_y, test_size=0.2)
-# train logistic regression with best classifier and test
-lr_best = LogisticRegression(class_weight=None, penalty='l2', warm_start='True')
-lr_trained = lr_best.fit(x_train, y_train)
-print("Logistic Regression Best Model Score:" + str(lr_trained.score(x_test, y_test)))
-
 
 # train svm with best classifier and test
+# SVM grid search graphs
+svm_grid_params = svm_clf.cv_results_['params']
+svm_grid_scores = svm_clf.cv_results_['mean_test_score']
+
+# # By C-Value
+# svm_grid_c_values = []
+# for i in range(len(svm_grid_params)):
+#     svm_grid_c_values.append(svm_grid_params[i]['C'])
+#     print('C: ' + str(svm_grid_c_values[i]) + ' - Score: ' + str(svm_grid_scores[i]))
+#
+# plt.axes(xscale='log')
+# plt.scatter(svm_grid_c_values, svm_grid_scores, marker='o')
+# plt.xlim(svm_grid_c_values[0]/10, svm_grid_c_values[-1] * 10)
+# plt.ylim(svm_grid_scores[0] - .05, svm_grid_scores[-1] + .05)
+# plt.xlabel('C-values')
+# plt.ylabel('Mean Scores')
+# plt.title('SVM Grid Search - Scores by C-value')
+# plt.show()
+
+# By gamma
+svm_grid_gamma = []
+for i in range(len(svm_grid_params)):
+    svm_grid_gamma.append(svm_grid_params[i]['C'])
+    print('Gamma: ' + str(svm_grid_gamma[i]) + ' - Score: ' + str(svm_grid_scores[i]))
+plt.axes(xscale='log')
+plt.scatter(svm_grid_gamma, svm_grid_scores, marker='o')
+plt.xlim(svm_grid_gamma[0]/10, svm_grid_gamma[-1] * 10)
+plt.ylim(svm_grid_scores[0] - .05, svm_grid_scores[-1] + .05)
+plt.xlabel('Gamma')
+plt.ylabel('Mean Scores')
+plt.title('SVM Grid Search - Scores by Gamma')
+plt.show()
 
 # train perceptron with best classifier and test
 
