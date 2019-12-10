@@ -59,12 +59,12 @@ def create_model(optimizer='rmsprop', kernel_init='glorot_uniform', activation='
 model = KerasClassifier(build_fn=create_model, epochs=100, verbose=VERBOSE)  # verbose = 0 for nothing to show
 # grid search parameters
 optimizers = ['rmsprop']
-kernel_inits = ['glorot_uniform']
+kernel_inits = ['glorot_uniform', 'normal', 'uniform']
 activations = ['sigmoid']
-layers = [1]
+layers = [1, 10]
 nodes = [8, 64]
 dropouts = [.1]
-epochs = [50]
+epochs = [500]
 batches = [10]
 
 # shape of the data. This defines all of the inputs
@@ -80,7 +80,7 @@ grid = GridSearchCV(estimator=model, param_grid=param_grid, n_jobs=PROCESSORS, c
 grid_result = grid.fit(pd_data_x_train, pd_data_y_train)
 
 # save trained keras classifier to file
-keras_outfile = open("keras_clf.pickle", "w+b")
+keras_outfile = open("keras2_clf.pickle", "w+b")
 pickle.dump(grid_result, keras_outfile)
 keras_outfile.close()
 
