@@ -3,6 +3,8 @@ from sklearn.linear_model import LogisticRegression
 import matplotlib.pyplot as plt
 import pandas as pd
 from sklearn.model_selection import train_test_split
+import tensorflow as tf
+
 
 # load pickled classifiers
 lr_pickle = open("lr_clf.pickle", "rb")
@@ -16,6 +18,10 @@ svm_pickle.close()
 per_pickle = open("per_clf.pickle", "rb")
 per_clf = pickle.load(per_pickle)
 per_pickle.close()
+
+keras_pickle = open("keras2_clf.pickle", "rb")
+keras_clf = pickle.load(keras_pickle)
+keras_pickle.close()
 
 # # print best models and scores for each classifier
 # print("____________________________________________________________________")
@@ -227,3 +233,6 @@ print()
 # plt.ylabel('Mean Scores')
 # plt.title('Perceptron Grid Search - Average Score by Class Weight')
 # plt.show()
+
+# Keras Grid Search
+print()
