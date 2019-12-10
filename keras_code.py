@@ -84,7 +84,7 @@ grid = GridSearchCV(estimator=model, param_grid=param_grid, n_jobs=PROCESSORS, c
 grid_result = grid.fit(pd_data_x_train, pd_data_y_train)
 
 # save trained keras classifier to file
-keras_outfile = open("keras3_clf.pickle", "w+b")
+keras_outfile = open("keras4_cv_results.pickle", "w+b")
 pickle.dump(grid_result.cv_results_, keras_outfile)
 keras_outfile.close()
 
