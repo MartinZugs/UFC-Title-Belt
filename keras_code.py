@@ -57,19 +57,22 @@ def create_model(optimizer='rmsprop', kernel_init='glorot_uniform', activation='
 
 # evaluate model with standardized dataset
 model = KerasClassifier(build_fn=create_model, epochs=100, verbose=VERBOSE)  # verbose = 0 for nothing to show
-# grid search parameters
-optimizers = ['rmsprop']
-kernel_inits = ['glorot_uniform', 'normal', 'uniform']
-activations = ['sigmoid']
-layers = [1, 10, 50]
-nodes = [64, 200]
-dropouts = [.1]
-epochs = [500]
-batches = [10]
 
 # shape of the data. This defines all of the inputs
 DATA_SHAPE = pd_data_x_train.shape[1]
 DATA_LENGTH = pd_data_x_train.shape[0]
+
+
+# grid search parameters
+optimizers = ['rmsprop']
+kernel_inits = ['glorot_uniform', 'normal', 'uniform']
+activations = ['sigmoid']
+layers = [50]
+nodes = [DATA_SHAPE]
+dropouts = [0]
+epochs = [1000]
+batches = [10, 20, 30]
+
 
 # define parameter grid
 param_grid = dict(optimizer=optimizers, epochs=epochs, batch_size=batches, kernel_init=kernel_inits,
