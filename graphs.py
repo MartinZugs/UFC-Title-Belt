@@ -3,7 +3,6 @@ from sklearn.linear_model import LogisticRegression
 import matplotlib.pyplot as plt
 import pandas as pd
 from sklearn.model_selection import train_test_split
-import tensorflow as tf
 # from keras_code import create_model
 
 
@@ -20,49 +19,56 @@ per_pickle = open("per_clf.pickle", "rb")
 per_clf = pickle.load(per_pickle)
 per_pickle.close()
 
-keras_pickle = open("keras_clf.pickle", "rb")
-keras_clf = pickle.load(keras_pickle)
+keras_pickle = open("keras4_cv_results.pickle", "rb")
+keras_cv_results = pickle.load(keras_pickle)
 keras_pickle.close()
 
-# # print best models and scores for each classifier
-# print("____________________________________________________________________")
-# print("LR GRID SEARCH:")
-# print("____________________________________________________________________")
-# print("Best Estimator:")
-# print(lr_clf.best_estimator_)
-# print("Best Score:")
-# print(lr_clf.best_score_)
-# print("Best Params:")
-# print(lr_clf.best_params_)
-# print("Best Index:")
-# print(lr_clf.best_index_)
-# print()
-#
-# print("____________________________________________________________________")
-# print("SVM GRID SEARCH:")
-# print("____________________________________________________________________")
-# print("Best Estimator:")
-# print(svm_clf.best_estimator_)
-# print("Best Score:")
-# print(svm_clf.best_score_)
-# print("Best Params:")
-# print(svm_clf.best_params_)
-# print("Best Index:")
-# print(svm_clf.best_index_)
-# print()
-#
-# print("____________________________________________________________________")
-# print("PERCEPTRON GRID SEARCH:")
-# print("____________________________________________________________________")
-# print("Best Estimator:")
-# print(per_clf.best_estimator_)
-# print("Best Score:")
-# print(per_clf.best_score_)
-# print("Best Params:")
-# print(per_clf.best_params_)
-# print("Best Index:")
-# print(per_clf.best_index_)
-# print()
+# print best models and scores for each classifier
+print("____________________________________________________________________")
+print("LR GRID SEARCH:")
+print("____________________________________________________________________")
+print("Best Estimator:")
+print(lr_clf.best_estimator_)
+print("Best Score:")
+print(lr_clf.best_score_)
+print("Best Params:")
+print(lr_clf.best_params_)
+print("Best Index:")
+print(lr_clf.best_index_)
+print()
+
+print("____________________________________________________________________")
+print("SVM GRID SEARCH:")
+print("____________________________________________________________________")
+print("Best Estimator:")
+print(svm_clf.best_estimator_)
+print("Best Score:")
+print(svm_clf.best_score_)
+print("Best Params:")
+print(svm_clf.best_params_)
+print("Best Index:")
+print(svm_clf.best_index_)
+print()
+
+print("____________________________________________________________________")
+print("PERCEPTRON GRID SEARCH:")
+print("____________________________________________________________________")
+print("Best Estimator:")
+print(per_clf.best_estimator_)
+print("Best Score:")
+print(per_clf.best_score_)
+print("Best Params:")
+print(per_clf.best_params_)
+print("Best Index:")
+print(per_clf.best_index_)
+print()
+
+print("____________________________________________________________________")
+print("KERAS GRID SEARCH:")
+print("____________________________________________________________________")
+print("Best Score:")
+print(keras_cv_results['mean_test_score'])
+print()
 
 # LR grid search graphs
 lr_grid_params = lr_clf.cv_results_['params']
@@ -236,6 +242,11 @@ print()
 # plt.show()
 
 # Keras Grid Search
-# keras_grid_params = keras_clf.cv_results_['params']
-# keras_grid_scores = keras_clf.cv_results_['mean_test_score']
-print(keras_clf)
+all_scores = [lr_clf.best_score_, svm_clf.best_score_, per_clf.best_score_, keras_cv_results['mean_test_score']]
+plt.bar([0, 1, 2, 3], all_scores, align='center')
+plt.xticks([0, 1, 2, 3], ['LR', 'SVM', 'Per.', 'Keras'])
+plt.ylim(.55, .7)
+plt.xlabel('Model')
+plt.ylabel('Scores')
+plt.title('All Models Scores')
+plt.show()
