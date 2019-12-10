@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 from sklearn.model_selection import train_test_split
 import tensorflow as tf
+# from keras_code import create_model
 
 
 # load pickled classifiers
@@ -19,7 +20,7 @@ per_pickle = open("per_clf.pickle", "rb")
 per_clf = pickle.load(per_pickle)
 per_pickle.close()
 
-keras_pickle = open("keras2_clf.pickle", "rb")
+keras_pickle = open("keras_clf.pickle", "rb")
 keras_clf = pickle.load(keras_pickle)
 keras_pickle.close()
 
@@ -235,4 +236,6 @@ print()
 # plt.show()
 
 # Keras Grid Search
-print()
+# keras_grid_params = keras_clf.cv_results_['params']
+# keras_grid_scores = keras_clf.cv_results_['mean_test_score']
+print(keras_clf)
