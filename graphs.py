@@ -17,19 +17,19 @@ per_pickle = open("per_clf.pickle", "rb")
 per_clf = pickle.load(per_pickle)
 per_pickle.close()
 
-# print best models and scores for each classifier
-print("____________________________________________________________________")
-print("LR GRID SEARCH:")
-print("____________________________________________________________________")
-print("Best Estimator:")
-print(lr_clf.best_estimator_)
-print("Best Score:")
-print(lr_clf.best_score_)
-print("Best Params:")
-print(lr_clf.best_params_)
-print("Best Index:")
-print(lr_clf.best_index_)
-print()
+# # print best models and scores for each classifier
+# print("____________________________________________________________________")
+# print("LR GRID SEARCH:")
+# print("____________________________________________________________________")
+# print("Best Estimator:")
+# print(lr_clf.best_estimator_)
+# print("Best Score:")
+# print(lr_clf.best_score_)
+# print("Best Params:")
+# print(lr_clf.best_params_)
+# print("Best Index:")
+# print(lr_clf.best_index_)
+# print()
 #
 # print("____________________________________________________________________")
 # print("SVM GRID SEARCH:")
@@ -96,7 +96,7 @@ lr_grid_scores = lr_clf.cv_results_['mean_test_score']
 # plt.title('Logistic Regression Grid Search - Average Score by Class Weight')
 # plt.show()
 
-# # By Class Weight
+# # By Warm Start
 # lr_grid_warm_start_true = []
 # lr_grid_warm_start_false = []
 # for i in range(len(lr_grid_scores)):
@@ -123,8 +123,8 @@ lr_grid_scores = lr_clf.cv_results_['mean_test_score']
 
 # train svm with best classifier and test
 # SVM grid search graphs
-svm_grid_params = svm_clf.cv_results_['params']
-svm_grid_scores = svm_clf.cv_results_['mean_test_score']
+# svm_grid_params = svm_clf.cv_results_['params']
+# svm_grid_scores = svm_clf.cv_results_['mean_test_score']
 
 # # By C-Value
 # svm_grid_c_values = []
@@ -142,18 +142,88 @@ svm_grid_scores = svm_clf.cv_results_['mean_test_score']
 # plt.show()
 
 # By gamma
-svm_grid_gamma = []
-for i in range(len(svm_grid_params)):
-    svm_grid_gamma.append(svm_grid_params[i]['C'])
-    print('Gamma: ' + str(svm_grid_gamma[i]) + ' - Score: ' + str(svm_grid_scores[i]))
-plt.axes(xscale='log')
-plt.scatter(svm_grid_gamma, svm_grid_scores, marker='o')
-plt.xlim(svm_grid_gamma[0]/10, svm_grid_gamma[-1] * 10)
-plt.ylim(svm_grid_scores[0] - .05, svm_grid_scores[-1] + .05)
-plt.xlabel('Gamma')
-plt.ylabel('Mean Scores')
-plt.title('SVM Grid Search - Scores by Gamma')
-plt.show()
+# svm_grid_gamma = []
+# for i in range(len(svm_grid_params)):
+#     svm_grid_gamma.append(svm_grid_params[i]['C'])
+#     print('Gamma: ' + str(svm_grid_gamma[i]) + ' - Score: ' + str(svm_grid_scores[i]))
+# plt.axes(xscale='log')
+# plt.scatter(svm_grid_gamma, svm_grid_scores, marker='o')
+# plt.xlim(svm_grid_gamma[0]/10, svm_grid_gamma[-1] * 10)
+# plt.ylim(svm_grid_scores[0] - .05, svm_grid_scores[-1] + .05)
+# plt.xlabel('Gamma')
+# plt.ylabel('Mean Scores')
+# plt.title('SVM Grid Search - Scores by Gamma')
+# plt.show()
 
-# train perceptron with best classifier and test
+# Perceptron grid search graphs
+per_grid_params = per_clf.cv_results_['params']
+per_grid_scores = per_clf.cv_results_['mean_test_score']
+print()
 
+# # By Warm Start
+# per_grid_warm_start_true = []
+# per_grid_warm_start_false = []
+# for i in range(len(per_grid_scores)):
+#     if per_grid_params[i]['warm_start'] == 'False':
+#         per_grid_warm_start_false.append(per_grid_scores[i])
+#     elif per_grid_params[i]['warm_start'] == 'True':
+#         per_grid_warm_start_true.append(per_grid_scores[i])
+#     print('Warm Start: ' + str(per_grid_params[i]['warm_start']) + ' - Score: ' + str(per_grid_scores[i]))
+# per_warm_start_true_mean_score = sum(per_grid_warm_start_true)/len(per_grid_warm_start_true)
+# per_warm_start_false_mean_score = sum(per_grid_warm_start_false)/len(per_grid_warm_start_false)
+#
+# plt.bar([0, 1], [per_warm_start_true_mean_score, per_warm_start_false_mean_score], align='center')
+# plt.xticks([0, 1], ['True', 'False'])
+# plt.ylim(.55, .7)
+# plt.xlabel('Warm Start')
+# plt.ylabel('Mean Scores')
+# plt.title('Perceptron Grid Search - Average Score by Warm Start')
+# plt.show()
+
+# By Penalty
+# per_grid_penalty_none = []
+# per_grid_penalty_l1 = []
+# per_grid_penalty_l2 = []
+# per_grid_penalty_elasticnet = []
+# for i in range(len(per_grid_scores)):
+#     if per_grid_params[i]['penalty'] == 'l1':
+#         per_grid_penalty_l1.append(per_grid_scores[i])
+#     elif per_grid_params[i]['penalty'] == 'l2':
+#         per_grid_penalty_l2.append(per_grid_scores[i])
+#     elif per_grid_params[i]['penalty'] == 'None':
+#         per_grid_penalty_none.append(per_grid_scores[i])
+#     elif per_grid_params[i]['penalty'] == 'elasticnet':
+#         per_grid_penalty_elasticnet.append(per_grid_scores[i])
+#     print('Penalty: ' + str(per_grid_params[i]['penalty']) + ' - Score: ' + str(per_grid_scores[i]))
+# per_penalty_none_mean_score = sum(per_grid_penalty_none)/len(per_grid_penalty_none)
+# per_penalty_l1_mean_score = sum(per_grid_penalty_l1)/len(per_grid_penalty_l1)
+# per_penalty_l2_mean_score = sum(per_grid_penalty_l2)/len(per_grid_penalty_l2)
+# per_penalty_elasticnet_mean_score = sum(per_grid_penalty_elasticnet)/len(per_grid_penalty_elasticnet)
+#
+# plt.bar([0, 1, 2, 3], [per_penalty_none_mean_score, per_penalty_l1_mean_score, per_penalty_l2_mean_score, per_penalty_elasticnet_mean_score], align='center')
+# plt.xticks([0, 1, 2, 3], ['None', 'l1', 'l2', 'elasticnet'])
+# plt.ylim(.55, .7)
+# plt.xlabel('Penalty')
+# plt.ylabel('Mean Scores')
+# plt.title('Perceptron Grid Search - Average Score by Penalty')
+# plt.show()
+
+# # By Class Weight
+# per_grid_class_weight_balanced = []
+# per_grid_class_weight_none = []
+# for i in range(len(per_grid_scores)):
+#     if per_grid_params[i]['class_weight'] == None:
+#         per_grid_class_weight_none.append(per_grid_scores[i])
+#     elif per_grid_params[i]['class_weight'] == 'balanced':
+#         per_grid_class_weight_balanced.append(per_grid_scores[i])
+#     print('Class Weight: ' + str(per_grid_params[i]['class_weight']) + ' - Score: ' + str(per_grid_scores[i]))
+# per_class_weight_balanced_mean_score = sum(per_grid_class_weight_balanced)/len(per_grid_class_weight_balanced)
+# per_class_weight_none_mean_score = sum(per_grid_class_weight_none)/len(per_grid_class_weight_none)
+#
+# plt.bar([0, 1], [per_class_weight_balanced_mean_score, per_class_weight_none_mean_score], align='center')
+# plt.xticks([0, 1], ['Balanced', 'None'])
+# plt.ylim(.55, .7)
+# plt.xlabel('Class Weight')
+# plt.ylabel('Mean Scores')
+# plt.title('Perceptron Grid Search - Average Score by Class Weight')
+# plt.show()
