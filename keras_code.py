@@ -7,6 +7,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.model_selection import GridSearchCV
 from sklearn.metrics import accuracy_score
 from sklearn.utils import shuffle
+import pickle
 
 # path to the csv file
 DATA_PATH = "manually-preprocessed_data-full-headers.csv"
@@ -58,12 +59,12 @@ def create_model(optimizer='rmsprop', kernel_init='glorot_uniform', activation='
 model = KerasClassifier(build_fn=create_model, epochs=100, verbose=VERBOSE)  # verbose = 0 for nothing to show
 # grid search parameters
 optimizers = ['rmsprop']
-kernel_inits = ['glorot_uniform', 'normal', 'uniform']
+kernel_inits = ['glorot_uniform']
 activations = ['sigmoid']
-layers = [1, 10]
-nodes = [8, 64, 160]
+layers = [1]
+nodes = [8, 64]
 dropouts = [.1]
-epochs = [500]
+epochs = [50]
 batches = [10]
 
 # shape of the data. This defines all of the inputs
