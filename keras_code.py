@@ -65,13 +65,14 @@ DATA_LENGTH = pd_data_x_train.shape[0]
 
 # grid search parameters
 optimizers = ['rmsprop']
-kernel_inits = ['glorot_uniform', 'normal', 'uniform']
+kernel_inits = ['uniform']
 activations = ['sigmoid']
-layers = [50]
+layers = [40]
 nodes = [DATA_SHAPE]
 dropouts = [0]
-epochs = [1000]
-batches = [10, 20, 30]
+batches = [10]
+epochs = [DATA_SHAPE*10]
+
 
 
 # define parameter grid
