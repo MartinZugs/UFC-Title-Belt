@@ -10,7 +10,7 @@ from sklearn.utils import shuffle
 import pickle
 
 # path to the csv file
-DATA_PATH = "diff.csv" # "preprocessed_data_condensed.csv"
+DATA_PATH = "manually-preprocessed_data-full-headers.csv"
 # processors
 PROCESSORS = -1
 # K folds
@@ -67,11 +67,11 @@ DATA_LENGTH = pd_data_x_train.shape[0]
 optimizers = ['rmsprop']
 kernel_inits = ['uniform']
 activations = ['sigmoid']
-layers = [40]
-nodes = [DATA_SHAPE]
+layers = [10]
+nodes = [64]
 dropouts = [0]
 batches = [10]
-epochs = [DATA_SHAPE*10]
+epochs = [500]
 
 
 
@@ -84,8 +84,8 @@ grid = GridSearchCV(estimator=model, param_grid=param_grid, n_jobs=PROCESSORS, c
 grid_result = grid.fit(pd_data_x_train, pd_data_y_train)
 
 # save trained keras classifier to file
-keras_outfile = open("keras3_clf.pickle", "w+b")
-pickle.dump(grid_result, keras_outfile)
+keras_outfile = open("keras4_cv_results.pickle", "w+b")
+pickle.dump(grid_result.cv_results_, keras_outfile)
 keras_outfile.close()
 
 # summarize results
