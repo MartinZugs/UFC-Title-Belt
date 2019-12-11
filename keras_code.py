@@ -10,7 +10,7 @@ from sklearn.utils import shuffle
 import pickle
 
 # path to the csv file
-DATA_PATH = "manually-preprocessed_data-full-headers.csv"
+DATA_PATH = "diff.csv"
 # processors
 PROCESSORS = -1
 # K folds
@@ -68,10 +68,10 @@ optimizers = ['rmsprop']
 kernel_inits = ['uniform']
 activations = ['sigmoid']
 layers = [10]
-nodes = [64]
+nodes = [DATA_SHAPE]
 dropouts = [0]
-batches = [10]
-epochs = [500]
+batches = [20]
+epochs = [1000]
 
 
 
