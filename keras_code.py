@@ -10,7 +10,7 @@ from sklearn.utils import shuffle
 import pickle
 
 # path to the csv file
-DATA_PATH = "preprocessed_data_condensed.csv"
+DATA_PATH = "diff.csv" # "preprocessed_data_condensed.csv"
 # processors
 PROCESSORS = -1
 # K folds
